@@ -1,31 +1,35 @@
 # cat input.txt | python main.py
-from ParseInput import ParseInput
-from MeetingRoomFactory import MeetingRoomFactory
-from Commands import Book, Vacancy
+from Models.Commands import Commands
+from Validators.InputValidator import InputValidator
+from Service.MeetingRoomFactory import MeetingRoomFactory
+from Service.BookingService import BookingService
+from Service.VacancyService import VacancyService
 
 
 if __name__ == '__main__':
     meetingRoomFactory = MeetingRoomFactory()
     meetingRooms = meetingRoomFactory.CreateMeetingRooms()
     
-    bookCommand = Book()
-    vacancyCommand = Vacancy()
+    bookingService = BookingService()
+    vacancyService = VacancyService()
+
+    commands = Commands()
 
     try:
         while str:
             str = input()
-            _input = ParseInput(str)
+            _input = InputValidator(str)
             if _input.IsValid:
                 # execute the user request
-                if _input.Command == "BOOK":
-                    if bookCommand.BookRoom(_input, meetingRooms):
-                        print(bookCommand.Result)
+                if _input.Query.Command == commands.COMMANDS[0][0]:
+                    if bookingService.BookRoom(_input.Query, meetingRooms):
+                        print(bookingService.Result)
                     else:
                         print("NO_VACANT_ROOM")
                     
-                elif _input.Command == "VACANCY":
-                    if vacancyCommand.GetVacancy(_input, meetingRooms):
-                        print(vacancyCommand.Result)
+                elif _input.Query.Command == commands.COMMANDS[1][0]:
+                    if vacancyService.GetVacancy(_input.Query, meetingRooms):
+                        print(vacancyService.Result)
                     else:
                         print("NO_VACANT_ROOM")
                 else:

@@ -1,5 +1,8 @@
 from typing import List
-from MeetingRoom import MeetingRoom, MorningBufferTime, AfterNoonBufferTime, EveningBufferTime
+from Models.MorningBufferTime import MorningBufferTime
+from Models.AfterNoonBufferTime import AfterNoonBufferTime
+from Models.EveningBufferTime import EveningBufferTime
+from Models.MeetingRoom import MeetingRoom
 
 
 class MeetingRoomFactory:
