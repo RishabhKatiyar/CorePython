@@ -8,21 +8,21 @@ import sys
 
 def main():
     input_file = sys.argv[1]
-    file1 = open(input_file, 'r')
-    Lines = file1.readlines()
+    file = open(input_file, 'r')
+    lines = file.readlines()
     
     meetingRoomFactory = MeetingRoomFactory()
     meetingRooms = meetingRoomFactory.CreateMeetingRooms()
     
     bookingService = BookingService()
     vacancyService = VacancyService()
-
+    
     # These are the hard code representation of the various commands that can be 
     # extended when required
     commands = Commands()
-
+    
     try:
-        for line in Lines:
+        for line in lines:
             # Validate the incoming request
             _input = InputValidator(line)
             if _input.IsValid:

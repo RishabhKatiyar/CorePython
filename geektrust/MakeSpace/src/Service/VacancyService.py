@@ -10,11 +10,12 @@ class VacancyService(BaseService):
 
     def GetVacancy(self, query:Query , meetingRooms : List[MeetingRoom]) -> bool:
         self.Result = ''
+        
         vacantRooms = self.GetVacantRooms(query, meetingRooms)
 
-        for vacantRoom in vacantRooms[0]:
+        for vacantRoom in vacantRooms:
             self.Result += vacantRoom.Name + " "
         
         self.Result = self.Result.strip()
         
-        return len(vacantRooms[0]) > 0
+        return len(vacantRooms) > 0
