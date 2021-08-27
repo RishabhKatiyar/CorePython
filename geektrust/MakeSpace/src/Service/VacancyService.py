@@ -1,6 +1,6 @@
-from Service.BaseService import BaseService
-from Models.MeetingRoom import MeetingRoom
-from Models.Query import Query
+from src.Service.BaseService import BaseService
+from src.Models.MeetingRoom import MeetingRoom
+from src.Models.Query import Query
 from typing import List
 
 
@@ -14,5 +14,7 @@ class VacancyService(BaseService):
 
         for vacantRoom in vacantRooms[0]:
             self.Result += vacantRoom.Name + " "
+        
+        self.Result = self.Result.strip()
         
         return len(vacantRooms[0]) > 0

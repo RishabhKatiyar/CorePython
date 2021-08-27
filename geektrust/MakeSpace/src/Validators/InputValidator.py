@@ -1,10 +1,10 @@
-from Models.Time import Time
-from Models.Query import Query
-from Models.Commands import Commands
-
+from src.Models.Time import Time
+from src.Models.Query import Query
+from src.Models.Commands import Commands
 
 class InputValidator:    
     def __init__(self, input) -> None:
+        # build a query object out of the user request
         self.Query = Query()
 
         tokens = input.split(' ')
@@ -19,20 +19,27 @@ class InputValidator:
     
     @property
     def IsValid(self):
+        # basic checks on the input
         if self.Query.Command is None:
             self.Query.Reason = "Not a registered Command"
             return False
+
         if not self.Query.StartTime.IsValid:
             self.Query.Reason = "StartTime is not valid"
             return False
+            
         if not self.Query.EndTime.IsValid:
             self.Query.Reason = "EndTime is not valid"
             return False
+
+        # Start Time should not be equal to end time  
         if self.Query.StartTime == self.Query.EndTime:
             self.Query.Reason = "Start Time and End Time is same"
             return False
+        
         # Start Time should be less than End Time
-        # Booking should be for the same day, the check for start time to be less than end should be able to handle this
+        # Booking should be for the same day, 
+        # the check for start time to be less than end should be able to handle this
         if self.Query.StartTime.Hour > self.Query.EndTime.Hour:
             self.Query.Reason = "Start Time Hour greater than End Time Hour"
             return False

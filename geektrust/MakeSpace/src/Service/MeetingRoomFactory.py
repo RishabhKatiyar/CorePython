@@ -1,8 +1,9 @@
 from typing import List
-from Models.MorningBufferTime import MorningBufferTime
-from Models.AfterNoonBufferTime import AfterNoonBufferTime
-from Models.EveningBufferTime import EveningBufferTime
-from Models.MeetingRoom import MeetingRoom
+from src.Models.MorningBufferTime import MorningBufferTime
+from src.Models.AfterNoonBufferTime import AfterNoonBufferTime
+from src.Models.EveningBufferTime import EveningBufferTime
+from src.Models.MeetingRoom import MeetingRoom
+from src.Controllers.MeetingRoomsController import MeetingRoomsController
 
 
 class MeetingRoomFactory:
@@ -11,9 +12,8 @@ class MeetingRoomFactory:
 
     def CreateMeetingRooms(self) -> List:
         meetingRooms = []
-        # this data can be gathered from some api giving the office location/building number as one of the input parameter
-        # format - Meeting Room, Capacity, BufferTimesType
-        meetingRoomsData = [("C-Cave", 3, "Default"),("D-Tower", 7, "Default"),("G-Mansion", 20, "Default")]
+        
+        meetingRoomsData = MeetingRoomsController().GetMeetingRoomData()
 
         for meetingRoomData in meetingRoomsData:
             buffers = []

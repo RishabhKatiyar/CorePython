@@ -1,5 +1,5 @@
-from Models.Time import Time
-from Models.BufferTime import BufferTime
+from src.Models.Time import Time
+from src.Models.BufferTime import BufferTime
 
 
 class EveningBufferTime(BufferTime):

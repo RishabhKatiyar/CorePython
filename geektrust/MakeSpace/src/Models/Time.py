@@ -37,6 +37,8 @@ class Time:
 
     @property
     def IsValid(self):
+        # Basic checks on our Time object i.e hour,  
+        # minutes and interval (that can be easily changed with self.IntervalsInMinutes)
         if self.Hour < 0 or self.Hour > 23:
             self.Reason = "Hour should be between 0 and 23"
             return False

@@ -1,8 +1,7 @@
-
-from Models.Query import Query
-from Models.MeetingRoom import MeetingRoom
+from src.Models.Query import Query
+from src.Models.MeetingRoom import MeetingRoom
+from src.Models.Time import Time
 from typing import List
-from Models.Time import Time
 import sys
 
 
@@ -27,10 +26,11 @@ class BaseService:
         return False
 
     # Returns list of meeting rooms available at current time and the room with least capacity that can satisfy the need
-    def GetVacantRooms(self, query: Query , meetingRooms : List[MeetingRoom], requiredCapacity = 0) -> List[MeetingRoom]:
+    def GetVacantRooms(self, query: Query , meetingRooms : List[MeetingRoom], requiredCapacity = 0) -> List:
         result = []
         VacantRoomWithLeastCapacity = None
         minCapacity = sys.maxsize
+
         for meetingRoom in meetingRooms:
             roomVacant = True
             for slotBooked in meetingRoom.SlotsBooked:
