@@ -8,14 +8,11 @@ class BookingService(BaseService):
     def __init__(self) -> None:
         pass
 
-    def BookRoom(self, query: Query , meetingRooms: List[MeetingRoom]) -> bool:
-        self.Result = ''
-
-        vacantRoom = self.GetVacantRoom(query, meetingRooms, query.PersonCapacity) 
+    def BookRoom(self, query: Query , meetingRooms: List[MeetingRoom]) -> str:
+        vacantRoom = self.GetVacantRoom(query, meetingRooms) 
 
         if not vacantRoom is None:
-            self.Result = vacantRoom.Name
             vacantRoom.SlotsBooked.append([str(query.StartTime), str(query.EndTime)])
-            return True
+            return vacantRoom.Name
         else:
-            return False
+            return "NO_VACANT_ROOM"

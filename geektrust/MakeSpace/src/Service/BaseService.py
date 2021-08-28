@@ -9,7 +9,7 @@ class BaseService:
     def __init__(self) -> None:
         pass
     
-    def IsMeetingTimeConflicting(self, startTime1: Time, endTime1: Time, startTime2: Time, endTime2: Time) -> bool:
+    def __isMeetingTimeConflicting(self, startTime1: Time, endTime1: Time, startTime2: Time, endTime2: Time) -> bool:
         if startTime1 > startTime2 and startTime1 < endTime2 or endTime1 > startTime2 and endTime1 < endTime2:
             return True
         if startTime1 == startTime2:
@@ -19,29 +19,29 @@ class BaseService:
 
         return False
 
-    def IsBookingTimeInBuffers(self, meetingRoomBuffers, meetingStartTime: Time, meetingEndTime: Time) -> bool:
+    def __isBookingTimeInBuffers(self, meetingRoomBuffers, meetingStartTime: Time, meetingEndTime: Time) -> bool:
         for buffer in meetingRoomBuffers:
-            if self.IsMeetingTimeConflicting(meetingStartTime, meetingEndTime, buffer.StartTime, buffer.EndTime):
+            if self.__isMeetingTimeConflicting(meetingStartTime, meetingEndTime, buffer.StartTime, buffer.EndTime):
                 return True
         return False
 
-    def IsRoomOccupied(self, meetingRoom: MeetingRoom, startTime: Time, endTime: Time) -> bool:
+    def __isRoomOccupied(self, meetingRoom: MeetingRoom, startTime: Time, endTime: Time) -> bool:
         for slotBooked in meetingRoom.SlotsBooked:
             slotStartTime = Time(slotBooked[0])
             slotEndTime = Time(slotBooked[1])
-            if self.IsMeetingTimeConflicting(startTime, endTime, slotStartTime,slotEndTime):
+            if self.__isMeetingTimeConflicting(startTime, endTime, slotStartTime,slotEndTime):
                 return True
         return False
 
-    def GetVacantRoom(self, query: Query , meetingRooms : List[MeetingRoom], requiredCapacity: int) -> MeetingRoom:
+    def GetVacantRoom(self, query: Query , meetingRooms : List[MeetingRoom]) -> MeetingRoom:
         vacantRoom = None
         minCapacity = sys.maxsize
 
         for meetingRoom in meetingRooms:
-            roomOccupied = self.IsRoomOccupied(meetingRoom, query.StartTime, query.EndTime)          
+            roomOccupied = self.__isRoomOccupied(meetingRoom, query.StartTime, query.EndTime)          
             
-            if not roomOccupied and not self.IsBookingTimeInBuffers(meetingRoom.Buffers, query.StartTime, query.EndTime):
-                if meetingRoom.Capacity >= requiredCapacity and minCapacity > meetingRoom.Capacity:
+            if not roomOccupied and not self.__isBookingTimeInBuffers(meetingRoom.Buffers, query.StartTime, query.EndTime):
+                if meetingRoom.Capacity >= query.PersonCapacity and minCapacity > meetingRoom.Capacity:
                     vacantRoom = meetingRoom
                     minCapacity = meetingRoom.Capacity   
 
@@ -51,9 +51,9 @@ class BaseService:
         vacantRooms = []
 
         for meetingRoom in meetingRooms:
-            roomOccupied = self.IsRoomOccupied(meetingRoom, query.StartTime, query.EndTime)
+            roomOccupied = self.__isRoomOccupied(meetingRoom, query.StartTime, query.EndTime)
 
-            if not roomOccupied and not self.IsBookingTimeInBuffers(meetingRoom.Buffers, query.StartTime, query.EndTime):
+            if not roomOccupied and not self.__isBookingTimeInBuffers(meetingRoom.Buffers, query.StartTime, query.EndTime):
                 vacantRooms.append(meetingRoom)
 
         return vacantRooms

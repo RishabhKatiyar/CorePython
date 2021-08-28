@@ -8,14 +8,15 @@ class VacancyService(BaseService):
     def __init__(self) -> None:
         pass
 
-    def GetVacancy(self, query:Query , meetingRooms : List[MeetingRoom]) -> bool:
-        self.Result = ''
+    def GetVacancy(self, query:Query , meetingRooms : List[MeetingRoom]) -> str:
+        vacantRoomsList = ''
         
         vacantRooms = self.GetVacantRooms(query, meetingRooms)
 
         for vacantRoom in vacantRooms:
-            self.Result += vacantRoom.Name + " "
-        
-        self.Result = self.Result.strip()
-        
-        return len(vacantRooms) > 0
+            vacantRoomsList += vacantRoom.Name + " "
+                
+        if len(vacantRooms) > 0:
+            return vacantRoomsList.strip()
+        else:
+            return "NO_VACANT_ROOM"

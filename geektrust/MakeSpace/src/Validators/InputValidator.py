@@ -9,12 +9,12 @@ class InputValidator:
 
         tokens = input.split(' ')
 
-        for command in Commands().COMMANDS:
-            if command[0] == tokens[0]:
-                self.Query.Command = command[0]
+        for command in Commands:
+            if command.name == tokens[0]:
+                self.Query.Command = command.name
                 self.Query.StartTime = Time(tokens[1])
                 self.Query.EndTime = Time(tokens[2])
-                if command[1] == 3:
+                if command.value == 3:
                     self.Query.PersonCapacity = int(tokens[3])
     
     @property
